@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="author" content="carlos Johel Mejia Arribasplata" />
+		<meta name="email" content="meji0037@algonquinlive.com" />
+
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+				text-decoration: none;
+				font-family: Arial, Helvetica, sans-serif;
+				border: none;
+			}
+
+			.container {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+
+			.calculator {
+				width: 400px;
+				border-radius: 10px;
+				padding: 25px 20px 10px 20px;
+				box-shadow: 0 10px 25px rgba(92, 99, 105, 0.9);
+				background-color: grey;
+			}
+			.display {
+				background-color: orange;
+				padding: 10px;
+				border-radius: 7px;
+				text-align: right;
+				font-weight: bold;
+				font-size: 20px;
+				width: 350px;
+			}
+
+			.keypad {
+				margin-top: 10px;
+				text-align: center;
+				align-items: center;
+			}
+
+			.button {
+				border-radius: 6px;
+				padding-right: 20p;
+				font-size: 36px;
+				width: 80px;
+				margin-right: 10px;
+				margin-bottom: 10px;
+				background-color: #ddd9d9;
+			}
+
+			button:hover {
+				box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.2),
+					0 17px 50px 0 rgba(0, 0, 0, 0.19);
+				background-color: #ffffff;
+			}
+
+			.dark {
+				font-size: 20px;
+				width: 120px;
+				padding: 5px;
+			}
+
+			.dark2 {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+			}
+		</style>
+		<title>Very Simple Calculator</title>
+		<link
+			rel="icon"
+			type="image/x-icon"
+			href="https://www.nicepng.com/png/detail/360-3608220_all-photo-png-clipart-calculator-clipart.png"
+		/>
+	</head>
+	<body>
+		<div class="container">
+			<div class="calculator">
+				<div class="display">
+					<span id="result">0</span>
+				</div>
+
+				<div class="keypad">
+					<!-- reformat button pad as needed this is simply for layout -->
+					<button onclick="calculate(7)" class="button" id="7">7</button
+					><button onclick="calculate(8)" class="button">8</button
+					><button onclick="calculate(9)" class="button">9</button
+					><button onclick="calculate('-')" class="button">-</button><br />
+					<button onclick="calculate(4)" class="button">4</button
+					><button onclick="calculate(5)" class="button">5</button
+					><button onclick="calculate(6)" class="button">6</button
+					><button onclick="calculate('/')" class="button">/</button><br />
+					<button onclick="calculate(1)" class="button">1</button
+					><button onclick="calculate(2)" class="button">2</button
+					><button onclick="calculate(3)" class="button">3</button
+					><button onclick="calculate('x')" class="button">x</button><br />
+					<button onclick="calculate(0)" class="button">0</button
+					><button onclick="calculate('c')" class="button">C</button
+					><button onclick="calculate('=')" class="button">=</button
+					><button onclick="calculate('+')" class="button">+</button><br />
+					<div class="dark2">
+						<button id="mode" class="dark" onclick="dark()">Dark mode</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			//Declaration of Variables
+			var input = document.getElementById('result');
+			var var1 = '';
+			var var2 = '';
+			var result = '';
+			var operator = '';
+			var add = true;
+			var mode = '';
+			var test = '';
+			var negative = '';
+			var cero = '';
+
+			//clear the result
+			let iniciar = () => {
+				test = false;
+				if (add == true) {
+					input.textContent = '';
+				}
+			};
+
+			//Clear Variables by default
+			let clear = () => {
+				var1 = '';
+				var2 = '';
+				result = '';
+				operator = '';
+				add = true;
+				mode = '';
+				test = '';
+				negative = '';
+				cero = '';
+			};
+
+			//choose the number and operation
+			let calculate = (value) => {
+				switch (value) {
+					case 0:
+						if (input.textContent != '0') {
+							if (cero == true) {
+								input.textContent = 0;
+								clear();
+								break;
+							} else {
+								input.textContent = input.textContent + '0';
+								add = false;
+								break;
+							}
+						} else {
+							input.textContent = 0;
+							clear();
+							break;
+						}
+
+					case 1:
+						cargaNumero('1');
+						break;
+					case 2:
+						cargaNumero('2');
+						break;
+					case 3:
+						cargaNumero('3');
+						break;
+					case 4:
+						cargaNumero('4');
+						break;
+					case 5:
+						cargaNumero('5');
+						break;
+					case 6:
+						cargaNumero('6');
+						break;
+					case 7:
+						cargaNumero('7');
+						break;
+					case 8:
+						cargaNumero('8');
+						break;
+					case 9:
+						cargaNumero('9');
+						break;
+					case 'c':
+						input.textContent = 0;
+						clear();
+						break;
+					case '+':
+						operacion('+');
+						break;
+					case '-':
+						operacion('-');
+						break;
+					case 'x':
+						operacion('x');
+						break;
+					case '/':
+						operacion('/');
+						break;
+					case '=':
+						if (test != true) {
+							var2 = input.textContent;
+							calcular(var1, var2, operator);
+							var1 = result;
+							add = true;
+							test = true;
+							operator = '';
+							cero = true;
+						}
+						break;
+				}
+			};
+
+			//load the numbers
+			let cargaNumero = (val) => {
+				iniciar();
+				input.textContent = input.textContent + val;
+				add = false;
+				cero = '';
+			};
+
+			// Do operation (+,-,x,/)
+			let operacion = (simboloOperacion) => {
+				operator = simboloOperacion;
+				cero = true;
+				if (var1 == '' || var1 == '0' || var1 == '-0') {
+					if ((var1 == '-0' && operator == '-') || var1 == '0') {
+						var1 = '-' + input.textContent;
+						var2 = '';
+						input.textContent = var1;
+					} else {
+						var1 = input.textContent;
+						var2 = '';
+					}
+				} else {
+					if (test == false && operator == simboloOperacion) {
+						var2 = input.textContent;
+						operator = simboloOperacion;
+						calcular(var1, var2, operator);
+						var1 = result;
+					}
+				}
+				test = true;
+				add = true;
+			};
+
+			//Show the result in base of the operation
+			let calcular = (var1, var2, operator) => {
+				switch (operator) {
+					case '+':
+						result = parseFloat(var1) + parseFloat(var2);
+						input.textContent = result;
+						break;
+					case '-':
+						result = parseFloat(var1) - parseFloat(var2);
+						input.textContent = result;
+						break;
+					case 'x':
+						result = parseFloat(var1) * parseFloat(var2);
+						input.textContent = result;
+						break;
+					case '/':
+						result = parseFloat(var1) / parseFloat(var2);
+						input.textContent = result;
+						break;
+				}
+			};
+
+			//Dark and Light mode
+			let dark = () => {
+				if (mode == 'dark' || mode == '') {
+					document.querySelector('.calculator').style =
+						'background-color:black';
+					document.querySelector('.dark').textContent = 'Light mode';
+					mode = 'light';
+				} else if (mode == 'light') {
+					document.querySelector('.calculator').style = 'background-color:grey';
+					document.querySelector('.dark').textContent = 'Dark mode';
+					mode = 'dark';
+				}
+			};
+		</script>
+	</body>
+</html>
